@@ -65,18 +65,24 @@ stages:
         notifyUsers: 'scopnatinc@hotmail.com'
         instructions: 'Please validate the build $(Build.BuildId) configuration and resume'
         onTimeout: 'resume'
+
+  - job:
 - task: ManualValidation@0
   inputs:
     notifyUsers: 'scopnatinc@hotmail.com'
     instructions: 'Please validate the build $(Build.BuildId) configuration and resume'
     onTimeout: 'resume'
-  - job: deployAzure
+    job: deployAzure
     displayName: deploy bicep to Azure
     pool:
       vmImage: 'ubuntu-latest'
     dependsOn: [waitForValidation]
 
-    steps:
+    st- task: ManualValidation@0
+  inputs:
+    notifyUsers: 'scopnatinc@hotmail.com'
+    instructions: 'Please validate the build $(Build.BuildId) configuration and resume'
+    onTimeout: 'resume'ps:
     - task: AzureCLI@2
       displayName: Deploy Bicep To Azure
       inputs:
