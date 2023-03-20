@@ -4,9 +4,9 @@ trigger: none
 # - main
 
 variables:
-  resourceGroupName: 'rg-bicep-demo-0023'
-  location: 'westeurope'
-  webAppName: 'bicep0023'
+  resourceGroupName: 'rg-bicep-ade-0023'
+  location: 'uksouth'
+  webAppName: 'adebicep0023'
   templateFile: '01-bicep-webapp/webapp-linux.bicep'
 
 pool:
@@ -41,7 +41,7 @@ stages:
     - task: AzureCLI@2
       displayName: Preview Bicep Changes
       inputs:
-        azureSubscription: 'Microsoft-Azure-0(17b12858-3960-4e6f-a663-a06fdae23428)'
+        azureSubscription: 'SCOP-PROD(aff9bd01-5885-4ad6-ba86-4eb8ade367f9)'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -62,10 +62,14 @@ stages:
     - task: ManualValidation@0
       timeoutInMinutes: 1440 # task times out in 1 day
       inputs:
-        notifyUsers: 'houssem.dellai@live.com'
+        notifyUsers: 'scopnatinc@hotmail.com'
         instructions: 'Please validate the build $(Build.BuildId) configuration and resume'
         onTimeout: 'resume'
-
+- task: ManualValidation@0
+  inputs:
+    notifyUsers: 'scopnatinc@hotmail.com'
+    instructions: 'Please validate the build $(Build.BuildId) configuration and resume'
+    onTimeout: 'resume'
   - job: deployAzure
     displayName: deploy bicep to Azure
     pool:
@@ -76,7 +80,7 @@ stages:
     - task: AzureCLI@2
       displayName: Deploy Bicep To Azure
       inputs:
-        azureSubscription: 'Microsoft-Azure-0(17b12858-3960-4e6f-a663-a06fdae23428)'
+        azureSubscription: 'SCOP-PROD(aff9bd01-5885-4ad6-ba86-4eb8ade367f9)'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
